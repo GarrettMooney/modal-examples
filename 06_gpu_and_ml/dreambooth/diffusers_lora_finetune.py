@@ -5,7 +5,7 @@
 # # Fine-tune Flux on your pet using LoRA
 
 # This example finetunes the [Flux.1-dev model](https://huggingface.co/black-forest-labs/FLUX.1-dev)
-# on images of a pet (by default, a puppy named Qwerty)
+# on images of a pet (by default, a dog named Aemon)
 # using a technique called textual inversion from [the "Dreambooth" paper](https://dreambooth.github.io/).
 # Effectively, it teaches a general image generation model a new "proper noun",
 # allowing for the personalized generation of art and photos.
@@ -103,10 +103,10 @@ class SharedConfig:
     """Configuration information shared across project components."""
 
     # The instance name is the "proper noun" we're teaching the model
-    instance_name: str = "Qwerty"
+    instance_name: str = "Aemon"
     # That proper noun is usually a member of some class (person, bird),
     # and sharing that information with the model helps it generalize better.
-    class_name: str = "Golden Retriever"
+    class_name: str = "Boxer mix"
     # identifier for pretrained models on Hugging Face
     model_name: str = "black-forest-labs/FLUX.1-dev"
 
@@ -453,13 +453,7 @@ def fastapi_app():
         f"drawing of {instance_phrase} high quality, cartoon, path traced, by studio ghibli and don bluth",
     ]
 
-    modal_docs_url = "https://modal.com/docs"
-    modal_example_url = f"{modal_docs_url}/examples/dreambooth_app"
-
-    description = f"""Describe what they are doing or how a particular artist or style would depict them. Be fantastical! Try the examples below for inspiration.
-
-### Learn how to make a "Dreambooth" for your own pet [here]({modal_example_url}).
-    """
+    description = "Describe what they are doing or how a particular artist or style would depict them. Be fantastical! Try the examples below for inspiration."
 
     # custom styles: an icon, a background, and a theme
     @web_app.get("/favicon.ico", include_in_schema=False)
