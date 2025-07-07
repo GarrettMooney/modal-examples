@@ -1,3 +1,7 @@
+"""Usage:
+uvx --with requests modal run diffusers_lora_finetune.py  # train the model
+"""
+
 # ---
 # deploy: true
 # ---
@@ -106,7 +110,7 @@ class SharedConfig:
     instance_name: str = "Aemon"
     # That proper noun is usually a member of some class (person, bird),
     # and sharing that information with the model helps it generalize better.
-    class_name: str = "Boxer mix"
+    class_name: str = "Pitbull/Boxer mix of dog"
     # identifier for pretrained models on Hugging Face
     model_name: str = "black-forest-labs/FLUX.1-dev"
 
@@ -129,12 +133,14 @@ MODEL_DIR = "/model"
 # Note that access to the Flux.1-dev model on Hugging Face is
 # [gated by a license agreement](https://huggingface.co/docs/hub/en/models-gated) which
 # you must agree to [here](https://huggingface.co/black-forest-labs/FLUX.1-dev).
-# After you have accepted the license, [create a Modal Secret](https://modal.com/secrets)
-# with the name `huggingface-secret` following the instructions in the template.
+# After you have accepted the license, you must provide a Hugging Face token.
+# [Create a fine-grained token on Hugging Face](https://huggingface.co/settings/tokens)
+# and ensure it has read permissions and is authorized to access gated repositories.
+# Then, [create a Modal Secret](https://modal.com/secrets) named `huggingface`
+# with your token stored in a key named `HF_TOKEN`.
 
-huggingface_secret = modal.Secret.from_name(
-    "huggingface-secret", required_keys=["HF_TOKEN"]
-)
+huggingface_secret = modal.Secret.from_name("huggingface", required_keys=["HF_TOKEN"])
+
 
 image = image.env(
     {"HF_HUB_ENABLE_HF_TRANSFER": "1"}  # turn on faster downloads from HF
